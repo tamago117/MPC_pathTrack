@@ -13,12 +13,13 @@ sim_steps = math.floor(sim_time / sampling_time)
 NX = 3  # x = x, y, v, yaw
 T = 20  # horizon length
 
-MAX_V = 5
-MAX_W = 5
+MAX_V = 10
+MAX_W = 2
 DL = MAX_V * sampling_time
 
-TRACK_LENGTH = 10
+TRACK_LENGTH = 15
 TRACK_RADIUS = 5
+LANE_WIDTH = 2.0
 
 N_IND_SEARCH = 10  # Search index number
 
@@ -82,10 +83,10 @@ def plot_robot(x, y, yaw, robot_radius):  # pragma: no cover
 def main():
     x = np.array([0.0, 0.0, 0.0])
     track_path = make_track(circle_radius=TRACK_RADIUS, linelength=TRACK_LENGTH, dl = DL)
-    right_lane, left_lane = make_side_lane(track_path, lane_width=1.0)
+    right_lane, left_lane = make_side_lane(track_path, lane_width=LANE_WIDTH)
 
     diffDrive = DiffDriveModel()
-    mpc = MPC(sampling_time*T, T, MAX_V, MAX_W)
+    mpc = MPC(sampling_time*T, T, MAX_V, MAX_W, LANE_WIDTH)
 
     xs = []
 
